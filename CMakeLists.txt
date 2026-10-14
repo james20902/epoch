@@ -35,7 +35,10 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(epoch epoch.c )
+add_executable(epoch
+        src/main.c
+        src/ahrs/lsm6dsox_reg.c
+)
 
 pico_set_program_name(epoch "epoch")
 pico_set_program_version(epoch "0.1")
@@ -50,11 +53,15 @@ pico_enable_stdio_usb(epoch 0)
 # Add the standard library to the build
 target_link_libraries(epoch
         pico_stdlib
-        hardware_pwm)
+        pico_multicore
+        hardware_pwm
+        hardware_spi)
 
 # Add the standard include files to the build
 target_include_directories(epoch PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/src/include
+        # ST's vendor drivers include their headers by bare name ("lis3mdl_reg.h")
+        ${CMAKE_CURRENT_LIST_DIR}/src/include/ahrs
 )
 
 pico_add_extra_outputs(epoch)

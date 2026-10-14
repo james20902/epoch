@@ -24,6 +24,9 @@
     "cmake.generator": "Ninja",
     "cmake.cmakePath": "${userHome}/.pico-sdk/cmake/v4.3.4/bin/cmake",
     "C_Cpp.debugShortcut": false,
+    "clangd.arguments": [
+        "--query-driver=${env:HOME}/.pico-sdk/toolchain/*/bin/*-gcc"
+    ],
     "terminal.integrated.env.windows": {
         "PICO_SDK_PATH": "${env:USERPROFILE}/.pico-sdk/sdk/2.3.1",
         "PICO_TOOLCHAIN_PATH": "${env:USERPROFILE}/.pico-sdk/toolchain/15_2_Rel1",

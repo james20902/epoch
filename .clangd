@@ -1,0 +1,5 @@
+CompileFlags:
+  CompilationDatabase: build
+  # GCC-only flags from the Pico SDK that clang rejects. The target and newlib
+  # headers come from --query-driver in .vscode/settings.json
+  Remove: [-mcpu=*, -mstrict-align, -ftls-model=*]
