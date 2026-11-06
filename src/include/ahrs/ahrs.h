@@ -1,3 +1,4 @@
-void init_ahrs() {
-    
-}
+
+int init_ahrs();
+
+int ahrs_state();

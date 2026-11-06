@@ -38,6 +38,8 @@ pico_sdk_init()
 add_executable(epoch
         src/main.c
         src/ahrs/lsm6dsox_reg.c
+        src/ahrs/lsm6dsox_dma.c
+        src/ahrs/ahrs.c
 )
 
 pico_set_program_name(epoch "epoch")
@@ -55,7 +57,9 @@ target_link_libraries(epoch
         pico_stdlib
         pico_multicore
         hardware_pwm
-        hardware_spi)
+        hardware_spi
+        hardware_dma
+        hardware_irq)
 
 # Add the standard include files to the build
 target_include_directories(epoch PRIVATE
