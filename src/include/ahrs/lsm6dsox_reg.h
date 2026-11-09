@@ -2732,10 +2732,6 @@ typedef struct {
  * them with a custom implementation.
  */
 
-int lsm6dsox_init(spi_inst_t *spi_gyro_inst, uint8_t spi_gyro_miso,
-                  uint8_t spi_gyro_mosi, uint8_t spi_gyro_clk,
-                  uint8_t gpio_chip_select);
-
 int32_t lsm6dsox_read_reg(uint8_t reg, uint8_t *data, uint16_t len);
 int32_t lsm6dsox_write_reg(uint8_t reg, const uint8_t *data, uint16_t len);
 

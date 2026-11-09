@@ -40,6 +40,10 @@ add_executable(epoch
         src/ahrs/lsm6dsox_reg.c
         src/ahrs/lsm6dsox_dma.c
         src/ahrs/ahrs.c
+        src/data/data.c
+        src/data/data_core.c
+        src/data/usb_sink.c
+        src/data/usb_descriptors.c
 )
 
 pico_set_program_name(epoch "epoch")
@@ -49,6 +53,7 @@ pico_set_program_version(epoch "0.1")
 pico_set_binary_type(epoch no_flash)
 
 # Modify the below lines to enable/disable output over UART/USB
+# stdio_usb must stay off: the usb data sink provides its own TinyUSB descriptors
 pico_enable_stdio_uart(epoch 0)
 pico_enable_stdio_usb(epoch 0)
 
@@ -59,7 +64,9 @@ target_link_libraries(epoch
         hardware_pwm
         hardware_spi
         hardware_dma
-        hardware_irq)
+        hardware_irq
+        tinyusb_device
+        pico_unique_id)
 
 # Add the standard include files to the build
 target_include_directories(epoch PRIVATE

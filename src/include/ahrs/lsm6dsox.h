@@ -23,6 +23,16 @@
 #define LSM6DSOX_DMA_ERR_RESET -4     // software reset never completed
 #define LSM6DSOX_DMA_ERR_VERIFY -5    // config register read-back mismatch
 
+/* Self test limits. */
+#define MIN_ST_LIMIT_mg 50.0f
+#define MAX_ST_LIMIT_mg 1700.0f
+#define MIN_ST_LIMIT_mdps 150000.0f
+#define MAX_ST_LIMIT_mdps 700000.0f
+
+/* Self test results. */
+#define ST_PASS 1U
+#define ST_FAIL 0U
+
 // raw samples, in device LSB (convert with lsm6dsox_from_fs*_to_*)
 typedef struct {
   int16_t temp;
@@ -30,22 +40,7 @@ typedef struct {
   int16_t accel[3];
 } lsm6dsox_sample_t;
 
-int lsm6dsox_dma_init(spi_inst_t *spi_inst, uint miso, uint mosi, uint clk,
+int lsm6dsox_init(spi_inst_t *spi_inst, uint miso, uint mosi, uint clk,
                       uint cs, uint int1, uint baud);
-
-// pops the oldest sample, returns false if the buffer is empty
-bool lsm6dsox_dma_read(lsm6dsox_sample_t *out);
-
-uint lsm6dsox_dma_available(void);
-
-// enable/disable the data-ready stream; blocking register access is only
-// allowed while the stream is disabled
-void lsm6dsox_dma_stream_enable(bool en);
-
-// samples dropped because the ring buffer was full
-uint32_t lsm6dsox_dma_overruns(void);
-
-// data-ready edges ignored because a transfer was still in flight
-uint32_t lsm6dsox_dma_missed_drdy(void);
 
 #endif
