@@ -1,5 +1,7 @@
 #include "data/data_core.h"
 #include "data/usb_sink.h"
+#include <pico/time.h>
+#include <pico/types.h>
 
 static struct data_sink *const sinks[] = {
     &usb_sink,
@@ -9,7 +11,11 @@ static struct data_sink *const sinks[] = {
 
 static volatile data_core_state state = DATA_CORE_INITIALIZE;
 
+static absolute_time_t data_start;
+static volatile struct payload p = {0};
+
 data_core_state data_core_state_get(void) { return state; }
+
 
 void data_core_main(void) {
     // data handling
@@ -26,6 +32,8 @@ void data_core_main(void) {
 
         switch (state) {
             case DATA_CORE_INITIALIZE:
+                // start the clock
+                data_start = get_absolute_time();
                 // a sink that fails init sits in DATA_ERROR, the rest carry on without it
                 for (unsigned i = 0; i < NUM_SINKS; i++) {
                     sinks[i]->sink_init(sinks[i]);
@@ -40,7 +48,13 @@ void data_core_main(void) {
                 state = DATA_CORE_STREAMING;
             break;
             case DATA_CORE_STREAMING:
-            // read sources, timestamp and package into the data struct, then sink_push to every sink
+                // read sources, timestamp and package into the data struct, then sink_push to every sink
+                // update timestamp
+                p.time_us = absolute_time_diff_us(data_start, get_absolute_time());
+
+                for (unsigned i = 0; i < NUM_SINKS; i++) {
+                    sinks[i]->sink_push(sinks[i], (void*)&p, PAYLOAD_SIZE);
+                }
             break;
             default:
             break;

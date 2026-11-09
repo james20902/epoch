@@ -38,7 +38,7 @@ pico_sdk_init()
 add_executable(epoch
         src/main.c
         src/ahrs/lsm6dsox_reg.c
-        src/ahrs/lsm6dsox_dma.c
+        src/ahrs/lsm6dsox.c
         src/ahrs/ahrs.c
         src/data/data.c
         src/data/data_core.c
@@ -66,7 +66,9 @@ target_link_libraries(epoch
         hardware_dma
         hardware_irq
         tinyusb_device
-        pico_unique_id)
+        pico_unique_id
+        pico_sync
+        pico_time)
 
 # Add the standard include files to the build
 target_include_directories(epoch PRIVATE

@@ -7,12 +7,20 @@
  * IRQs and stacks all live on core1.
  */
 
+#include <stdint.h>
+
 typedef enum {
     DATA_CORE_UNDEFINED,
     DATA_CORE_INITIALIZE,      // bring up sinks, then sources
     DATA_CORE_WAITING_SOURCES, // sources self test / calibrate
     DATA_CORE_STREAMING        // read sources, timestamp + package, push to sinks
 } data_core_state;
+
+struct payload {
+    int64_t time_us;
+};
+
+#define PAYLOAD_SIZE sizeof(struct payload)
 
 // core1 entry, never returns
 void data_core_main(void);

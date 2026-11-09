@@ -1,6 +1,7 @@
 #include "data/usb_sink.h"
 #include "tusb.h"
 
+// TODO, payload is a known size, buffer len should be a multiple of the payload size...
 #define RING_SIZE 4096 // must be a power of two
 #define DRAIN_CHUNK 64 // one full speed bulk packet
 

@@ -1,10 +1,10 @@
 #ifndef DATA_H
 #define DATA_H
 
-#include <pico/sync.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <pico/sync.h>
 
 typedef enum {
     DATA_UNINITIALIZED,
